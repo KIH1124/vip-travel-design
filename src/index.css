@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────────────
+   여정 디자인 토큰
+   색·서체·간격은 여기서만 정의하고 컴포넌트는 토큰 이름으로 사용합니다.
+   ────────────────────────────────────────────── */
+@theme {
+  /* Brand palette */
+  --color-paper: #f7f4ec;      /* Paper Ivory — 기본 배경 */
+  --color-linen: #e8dfcd;      /* Linen Beige — 보조 섹션 */
+  --color-sage: #4c5846;       /* Forest Sage — 주요 CTA·강조 */
+  --color-sage-deep: #3d4738;  /* CTA hover */
+  --color-ink: #2d302a;        /* Ink Black — 제목·본문 */
+  --color-brass: #a38a66;      /* Muted Brass — 작은 라벨·장식 */
+
+  /* 파생 톤 (대비 확보를 위해 브랜드 색에서 계산) */
+  --color-ink-soft: #4f5349;   /* 보조 본문: 아이보리 위 대비 약 7:1 */
+  --color-ink-mute: #6b6e64;   /* 캡션: 아이보리 위 대비 약 4.7:1 */
+  --color-brass-ink: #7d6844;  /* 아이보리 위 작은 글씨용 브라스: 대비 약 4.8:1 */
+  --color-rule: #d8cfbd;       /* 얇은 구분선 */
+  --color-paper-deep: #efe9dc; /* 플레이스홀더 바탕 */
+  --color-alert: #9a3a2c;      /* 입력 오류 안내: 아이보리·린넨 위 대비 약 6:1 */
+
+  /* Typography */
+  --font-serif: "Noto Serif KR", "Nanum Myeongjo", "AppleMyungjo", serif;
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+  --font-latin: "Cormorant Garamond", "Noto Serif KR", Georgia, serif;
+
+  --breakpoint-xl: 80rem;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.75;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  ::selection {
+    background: var(--color-linen);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-sage);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+  }
+}
+
+/* ──────────────────────────────────────────────
+   타이포그래피 스케일 (50대 이상 독자 기준)
+   모바일 → 데스크톱 순서로 브리프의 권장 범위를 따릅니다.
+   ────────────────────────────────────────────── */
+@layer components {
+  .type-hero {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: clamp(40px, 2.6vw + 27px, 64px);
+    line-height: 1.24;
+    letter-spacing: -0.02em;
+  }
+  .type-section {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: clamp(30px, 1.4vw + 24px, 46px);
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+  }
+  .type-course {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: clamp(27px, 0.9vw + 23px, 37px);
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+  }
+  .type-lead {
+    font-size: clamp(17px, 0.25vw + 16px, 19px);
+    line-height: 1.8;
+  }
+  .type-body {
+    font-size: clamp(16px, 0.2vw + 15.5px, 18px);
+    line-height: 1.8;
+  }
+  .type-small {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  .type-price {
+    font-family: var(--font-serif);
+    font-weight: 500;
+    font-size: clamp(26px, 0.6vw + 23px, 31px);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+  }
+  /* 영문 라벨: 절제된 세리프 + 작은 대문자 */
+  .label-latin {
+    font-family: var(--font-latin);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+  /* 한글 라벨 (지역·여행 유형 등) */
+  .label-ko {
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    line-height: 1.5;
+  }
+
+  .container-journal {
+    width: 100%;
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+  @media (min-width: 768px) {
+    .container-journal { padding-inline: 40px; }
+  }
+  @media (min-width: 1280px) {
+    .container-journal { padding-inline: 56px; }
+  }
+
+  /* 밑줄 링크 — 에디토리얼 텍스트 링크 */
+  .link-journal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    min-height: 44px;
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: var(--color-brass);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 6px;
+    transition: text-decoration-color 0.2s, color 0.2s;
+  }
+  .link-journal:hover {
+    color: var(--color-sage);
+    text-decoration-color: var(--color-sage);
+  }
+}
+
+/* ──────────────────────────────────────────────
+   필름 톤 — 35mm 컬러 네거티브 느낌
+   실제 필름 사진으로 교체한 뒤에는 src/data/site.js 의 filmTone 을 false 로 바꾸세요.
+   ────────────────────────────────────────────── */
+.film-tone img {
+  filter: saturate(0.82) contrast(0.94) brightness(1.03) sepia(0.06);
+}
+.film-grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.14;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Cormorant 기본 숫자는 올드스타일(1이 I처럼 보임)이라 시간·번호가 읽기 어렵습니다. 라이닝 숫자로 고정합니다. */
+.font-latin,
+.label-latin {
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+/* 화면 크기별 사진 크롭 위치 (Photo 의 positionMobile) */
+.photo-pos {
+  object-position: var(--pos-m);
+}
+@media (min-width: 768px) {
+  .photo-pos { object-position: var(--pos); }
+}

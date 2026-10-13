@@ -1,0 +1,22 @@
+# 의존성 · 빌드 결과
+node_modules
+dist
+*.local
+
+# 환경 변수 · 비밀 값
+.env
+.env.*
+!.env.example
+
+# 배포 도구 로컬 설정 (다른 사이트와 연결 정보가 섞이지 않도록)
+.netlify
+.vercel
+
+# 로그 · OS · 편집기
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea

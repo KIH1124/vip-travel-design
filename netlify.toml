@@ -1,0 +1,31 @@
+# Netlify 빌드 설정 — 이 저장소(여정 디자인 시안) 전용
+#
+# 이 사이트는 SPA 가 아니라 페이지마다 HTML 이 따로 있는 멀티 페이지 구성입니다.
+#   /  /courses/  /courses/{slug}/  /saved/  /coming-soon/  + 404.html
+# 그래서 "/* → /index.html 200" 같은 SPA fallback 규칙은 넣지 않습니다.
+# (넣으면 없는 코스 주소에 메인 페이지가 보입니다.)
+#
+# - 끝 슬래시: Netlify 의 Pretty URLs(기본 켜짐)가 폴더 주소를 처리합니다.
+#   /courses/gangneung 과 /courses/gangneung/ 모두 같은 상세 페이지가 열립니다.
+#   (슬래시 유무를 맞추는 redirect 규칙은 Netlify 가 끝 슬래시를 무시하고 비교해
+#    무한 이동이 생길 수 있어 넣지 않았습니다.)
+# - 없는 주소: dist/404.html 이 404 상태로 자동 응답됩니다.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# 해시가 붙은 빌드 파일은 오래 캐시
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# 시안 공유용 — 검색 엔진에 노출하지 않음 (정식 오픈 때 삭제)
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
